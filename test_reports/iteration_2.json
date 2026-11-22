@@ -1,0 +1,39 @@
+{
+  "summary": "Phase 1 review-fix round 2 tested end-to-end. Backend: 44/44 pytest pass (the new test_phase1_round2.py plus the updated test_phase1_api.py). reconcile.py prints ALL OK. Frontend: every requested flow passed. (1) Credit Lending is visible for Maya and for a new individual in the desktop sidebar and the mobile drawer. Maya sees lent 200, borrowed 250, net -50, pending 1, and rows lnd_001..004 with correct statuses (lnd_005 is not shown). The disclaimer text is exact. The Request and Lend buttons are disabled, with a 'Coming in Phase 2' pill. A new individual sees the empty ledger. (2) AI Usage cards, the provider table with share, and granularity work: day for 7/30, week with 13 points for 90. Filters show per role as specified (provider for all; department for Admin; member for Admin and Manager). The member list is narrowed by department. Clear filters works and totals update. (3) Backend filter scoping: every requested 403/400 case is correct. (4) View as: I ran 12 role-to-role switches covering every pair. Nav, overview-{role}, the scope label and the numbers all followed the target role. Overview stat-used equalled usage-total-credits every time. Switching to Admin while on /lending redirects to /overview. With a cookie session, admin -> employee makes /api/team/members return 403. (5) Individual mode never shows Nexora or department names, and the switcher shows 'Organisation demo'. (6) At 390px there is no horizontal overflow on Overview, Usage, Lending or the 6 placeholders. The drawer can be opened with Enter, Tab walks the nav links, a focus ring is visible, and Esc closes it. aria-labels are present. (7) Resizing 1440->1024->768->1200 on Overview and Usage: charts resize with no overflow. (8) The 4 demo logins, Maya's email/password login, a bad login, signup validation, logout and the protected-route redirect all work. Google: a fake session_id returns 401. A pending token inserted in Mongo completes through /auth/choose-mode to Overview. A reused token shows 'Your Google sign-in expired' (401), and an expired token returns 401.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "GET /api/usage?provider=X", "issue": "With a provider filter, members[].utilisation and health compare provider-only usage against the member's full allocation. This makes members look underutilised. Consider hiding utilisation and health when a provider filter is active, or labelling it."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Sidebar / drawer (Individual)", "issues": ["Credit Lending is now a reachable read-only page but still shows the 'Soon' badge (modules.js phase: 2). Consider 'Read-only' or 'Preview' instead."]},
+      {"screen": "Mobile 390px tap targets", "issues": ["mobile-menu-button and the drawer nav items meet the size (40px and 44px)", "role-switcher-trigger is only 30px tall, user-menu-trigger is 36x36 and the range-filter buttons are 36px tall. All are slightly below the ~40px target."]},
+      {"screen": "AI Usage at 768px", "issues": ["The 5 stat cards use a 2-column grid, so the 'vs previous period' card sits alone on the third row"]},
+      {"screen": "Settings placeholder (Individual)", "issues": ["The copy says 'Profile, organisation settings and preferences' and lists 'Organisation settings (Admin)' to an Individual user. This is generic copy, but it mentions an organisation in Individual mode."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_phase1_round2.py", "/app/backend/tests/test_phase1_api.py", "/app/test_reports/pytest/pytest_results_round2.xml"],
+  "action_items": [
+    "Optional: drop or rename the 'Soon' badge on Credit Lending for Individuals",
+    "Optional: raise role-switcher-trigger, user-menu-trigger and the range buttons to a height of 40px or more on mobile",
+    "Optional: make the Settings placeholder copy mode-aware for Individuals",
+    "Optional: handle member utilisation and health when a provider filter is active"
+  ],
+  "critical_code_review_comments": [
+    "_scoped_filters correctly limits member_id to the caller's scope (and to the selected department for Admin). department_id is Admin-only and checked against org_id. The self scope rejects both filters.",
+    "Overview and Usage share scoped_usage, so the totals cannot drift. bucketed() makes 13 weekly buckets for 90 days; the last bucket has 6 days, which is fine.",
+    "The AppShell key={user.id} remount plus the uid in the useApi params removes stale state on switch. Verified in the UI.",
+    "usage router builds the match dict separately from user_filter. They are consistent today, but a single source would be safer."
+  ],
+  "updated_files": ["/app/backend/tests/test_phase1_round2.py (new)", "/app/backend/tests/test_phase1_api.py (the 90d timeseries length assertion now expects 13 weekly buckets)"],
+  "success_rate": {"backend": "100% (44/44)", "frontend": "100% of requested flows"},
+  "seed_data_creation": "No seed data changed. These TEST users were created and then deleted by id or email, along with their allocations and audit_log entries: pytest TEST_Indie, TEST_Google, UI TEST_UI Indie, TEST_GoogleUI. The TEST_ pending_google_signups docs were removed. Note: 4 users with emails tscheck-*@example.com (usr_50ca7d43a0ba, usr_3370ad66bfb2, usr_a5fd0d2ced0f, usr_036c8d0d9b5b) were already in the DB before this run. They were not created by me and were left untouched. The main agent may want to remove them.",
+  "test_credentials": "/app/memory/test_credentials.md is accurate. The demo accounts and Maya's email/password (Demo@12345) work.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Run: cd /app/backend && REACT_APP_BACKEND_URL=<url> pytest tests/test_phase1_round2.py tests/test_phase1_api.py, then python scripts/reconcile.py. Google is tested by inserting into pending_google_signups and setting sessionStorage 'arm_google_pending'. The real Google OAuth round trip was not done (it needs a real Google account). The server date is 2026-11-21, and the seed covers 90 days back from it."
+}

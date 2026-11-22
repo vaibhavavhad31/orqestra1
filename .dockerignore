@@ -1,0 +1,12 @@
+.git
+**/node_modules
+**/__pycache__
+frontend/build
+backend/.env
+**/.env
+backend/e2e/shots
+mobile
+memory
+e1_test_reports
+test_reports
+*.zip

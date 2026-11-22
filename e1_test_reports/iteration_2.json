@@ -1,0 +1,31 @@
+{
+  "iteration": 2,
+  "mode": "retest",
+  "passed": 13,
+  "failed": 0,
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [
+    {"type": "human_verification", "severity": "low", "detail": "Real Google sign-in completion is untested and needs a human. Automated coverage only shows that a fake session_id gets a 401 and the button redirects to auth.emergentagent.com."}
+  ],
+  "notes": [
+    "The seed has 5 ledger entries, but Maya sees 4. This is correct: lnd_005 is between Tomas and Hana and does not involve Maya.",
+    "The 768px viewport is at the md breakpoint, so the desktop sidebar shows there and the mobile drawer button is hidden. The check was adjusted to match.",
+    "Cleanup: deleted 8 tscheck- users (the residue from iterations 1 and 2). No seeded data was touched."
+  ],
+  "checks": [
+    {"criterion": "Auth regression", "name": "test_tscheck_auth.py", "lane": "backend", "status": "passed", "evidence": "Full suite: 24 passed in 8.65s"},
+    {"criterion": "Auth regression", "name": "auth-login-signup-logout", "lane": "browser", "status": "passed", "evidence": "Reran the persisted check: demo logins, signup validation, duplicate email (409), logout"},
+    {"criterion": "View as role swaps the complete experience", "name": "role-nav-and-access-denied", "lane": "browser", "status": "passed", "evidence": "Nav matrix correct for all 4 roles; employee sees /team access denied"},
+    {"criterion": "View as role swaps the complete experience", "name": "test_tscheck_switch.py", "lane": "backend", "status": "passed", "evidence": "/api/demo/switch: role switch changes scope and permissions"},
+    {"criterion": "View as role swaps the complete experience", "name": "overview-usage-switcher-placeholder", "lane": "browser", "status": "passed", "evidence": "Admin -> employee switch changes the Usage scope"},
+    {"criterion": "View as role swaps the complete experience", "name": "test_tscheck_rbac.py", "lane": "backend", "status": "passed", "evidence": "RBAC rejections hold"},
+    {"criterion": "Individual Credit Lending visible and read-only", "name": "test_tscheck_lending.py", "lane": "backend", "status": "passed", "evidence": "GET /lending/summary 200: lent 200, borrowed 250, net -50, pending 1, disclaimer present; ledger statuses are active/pending/repaid; new individual gets entries []; admin gets 403"},
+    {"criterion": "Individual Credit Lending visible and read-only + Mobile/a11y 390px + Individual independence", "name": "lending-readonly-mobile-individual", "lane": "browser", "status": "passed", "evidence": "Ledger rows lnd_001-004 visible; action buttons disabled with 'Coming in Phase 2'; at 390px the drawer navigates Overview/Usage/Lending with no overflow and no Nexora or department text; Esc closes the drawer; 0 unlabeled icon buttons; no overflow at 768px on Usage"},
+    {"criterion": "AI Usage fully functional", "name": "test_tscheck_usage_filters.py", "lane": "backend", "status": "passed", "evidence": "Admin 7/30/90 days: providers sum to total; provider, department and member filters return 200. Manager filtering on Aisha or dep_marketing gets 403; employee filtering on Noah gets 403; individual filtering by department gets 403"},
+    {"criterion": "AI Usage fully functional + View as role", "name": "usage-filters-and-role-switch", "lane": "browser", "status": "passed", "evidence": "Range 7/90/30 days, department=Marketing and provider=Claude each fire /api/usage and get 200; switching to individual shows Lending, hides Team and leaves no Nexora data on Usage"},
+    {"criterion": "Reconciliation + Individual independence", "name": "test_tscheck_reconcile_independence.py", "lane": "backend", "status": "passed", "evidence": "scripts/reconcile.py exits 0 with no FAIL lines across all 4 roles x 7/30/90 days; individual /me, /overview, /usage and /lending responses contain no Nexora or department text; new individual cycle has budget 1000 and used 0"},
+    {"criterion": "Persistence", "name": "backend-restart-persistence", "lane": "backend", "status": "passed", "evidence": "16 non-test users before and after supervisorctl restart of the backend; 1 org (Nexora Technologies); health ok"},
+    {"criterion": "Mobile + accessibility", "name": "responsive-layout", "lane": "browser", "status": "passed", "evidence": "Reran the persisted check: drawer works and Usage has no overflow at 390px"}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+ "passed": 9, "failed": 0, "retest_needed": false,
+ "bugs": [],
+ "action_items": [
+  {"type":"improvement","severity":"low","detail":"Overview at 768px right after shrinking the window from 1440px had 216px of horizontal overflow for a moment (likely the chart container resizing late). It cleared on its own, and a fresh load at 768px had 0px overflow."},
+  {"type":"note","severity":"low","detail":"Google sign-in completion was not automated (spec deviation); only the button's presence was checked."}
+ ],
+ "checks": [
+  {"criterion":"Auth (JRN-1,2,3,4,16)","name":"test_tscheck_auth.py","lane":"backend","status":"passed","evidence":"POST /auth/login demo 200, bad 401; register duplicate 409, short password 4xx; GET /auth/me without auth 401"},
+  {"criterion":"Auth (JRN-1,2,3,4,16)","name":"auth-login-signup-logout","lane":"browser","status":"passed","evidence":"Google and 4 demo buttons shown; 'Invalid email or password'; inline errors for short password and duplicate email; new tscheck Individual user landed on /overview with Credit Lending and no Team or switcher; session kept after reload; logout, then /overview redirects to /login"},
+  {"criterion":"Role-based navigation (JRN-5..8)","name":"role-nav-and-access-denied","lane":"browser","status":"passed","evidence":"Exact nav sets checked for admin, manager, employee and individual; employee on /team sees 'You don't have access to this page'"},
+  {"criterion":"Backend RBAC (JRN-10,11)","name":"test_tscheck_rbac.py","lane":"backend","status":"passed","evidence":"Org endpoints with individual token: 403; departments and team with employee token: 403; lending with org roles: 403; no auth: 401"},
+  {"criterion":"View as switcher (JRN-9)","name":"test_tscheck_switch.py","lane":"backend","status":"passed","evidence":"Demo admin to sofia: 200; new real user: 403; switch to non-demo usr_lena_fischer: 403/404"},
+  {"criterion":"Overview + AI Usage consistency (JRN-12,13,17)","name":"test_tscheck_overview_usage.py","lane":"backend","status":"passed","evidence":"Overview totals equal usage totals for 4 roles x 7/30/90 days; org has 12 employees and 4 departments; 5 providers; employee scope self with members=null"},
+  {"criterion":"Overview/AI Usage/switcher/placeholder UI","name":"overview-usage-switcher-placeholder","lane":"browser","status":"passed","evidence":"Admin 7/90 filter changes Overview and Usage; 5 provider rows; 'Simulated data' badge; Reports shows 'Coming in a later phase'; switching to employee removes Team; employee usage has no members table and no other names"},
+  {"criterion":"Persistence (Q-5)","name":"backend-restart-persistence","lane":"backend","status":"passed","evidence":"Overview 90d totals {credits 79088, requests 45154} were the same before and after supervisorctl restart backend; tscheck-persist-1 login 200 after restart"},
+  {"criterion":"Responsive layout (JRN-15)","name":"responsive-layout","lane":"browser","status":"passed","evidence":"Run via the preview URL (ingress). No overflow on login, Overview or Usage at 390/768/1440; mobile-menu-button opens mobile-drawer at 390. Shrinking the window caused a brief overflow that cleared (see action_items)"}
+ ]
+}

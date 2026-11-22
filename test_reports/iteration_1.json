@@ -1,0 +1,42 @@
+{
+  "summary": "Phase 1 tested end-to-end: auth (JWT and bcrypt, cookies, lockout), signup validation, demo login and View as, the RBAC matrix for all 4 demo roles, overview and usage data integrity across the 7/30/90 day ranges, OpenAPI, seed idempotency across a backend restart, and UI journeys JRN-1 to JRN-18 on desktop (1920) and mobile (390). Backend: 29/29 pytest pass. Frontend: every tested journey passed. No functional bugs found; a few minor design and copy notes are listed below.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/auth/logout", "issue": "Stateless JWT. Logout only clears cookies, so a Bearer access token stays valid for up to 60 minutes after logout. There is no server-side revocation."},
+      {"endpoint": "POST /api/auth/google/session", "issue": "data['email'] is read without a guard. If the Emergent payload has no email, this raises KeyError and returns 500."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Provider colours (all charts)", "issues": ["ChatGPT (#10A37F) and Perplexity (#0D9488) are almost the same green-teal and hard to tell apart in the donut and stacked area charts"]},
+      {"screen": "Admin Overview", "issues": ["The 'Spend by department' card stretches to match the height of the Allocation health card, leaving a large empty area under the bar chart"]},
+      {"screen": "Individual sidebar / Overview", "issues": ["Mode chip reads 'Individual · Individual' (redundant)", "A brand-new user sees 'Welcome back, <name>'", "The Top provider card subtitle shows overall avg credits/day, not anything about the top provider"]},
+      {"screen": "Manager Team usage chart", "issues": ["X-axis label for Sofia Marchetti shows only 'Sofia' while the others show full names"]},
+      {"screen": "Mobile AI Usage (390px)", "issues": ["The Provider breakdown table clips the Share column inside the card (it scrolls inside the card, the page itself does not overflow)"]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_phase1_api.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Optional: give Perplexity (or ChatGPT) a clearly different colour",
+    "Optional: guard the missing email in google_session (return 401 instead of 500)",
+    "Optional copy fixes: 'Individual · Individual' chip, 'Welcome back' for new users"
+  ],
+  "critical_code_review_comments": [
+    "The RBAC matrix in core/permissions.py is centralised and the backend enforces it everywhere. require_org correctly blocks Individual accounts from /api/org.",
+    "demo_switch correctly requires both the current user and the target to be is_demo.",
+    "The seed is idempotent ($setOnInsert, keyed by id) and never rewrites the hashes of existing demo users. The usage seed re-runs once per day to add new days. Old records beyond 90 days are kept, which is harmless.",
+    "CORS uses explicit origins with credentials. A foreign Origin gets no Access-Control-Allow-Origin header.",
+    "members_usage loads all departments without an org filter (db.departments.find({})). This works now but should be scoped by org_id for multi-tenant safety."
+  ],
+  "updated_files": ["/app/backend/tests/test_phase1_api.py"],
+  "success_rate": {"backend": "100% (29/29)", "frontend": "100% of tested journeys (JRN-1..18)"},
+  "seed_data_creation": "No seed data created. Test users (TEST_User / TEST_UI User, plus 2 TEST_Org orgs) were created through register and then deleted by id, together with their allocations and audit_log entries. After cleanup: users=16, orgs=1, usage_records=4958.",
+  "test_credentials": "From /app/memory/test_credentials.md: the demo accounts (password Demo@12345) all work.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Run: cd /app/backend && REACT_APP_BACKEND_URL=... pytest tests/test_phase1_api.py. The lockout test uses random emails. Q-5 was verified: users=16 and usage_records=4958 were unchanged across a backend restart. The Google button goes to auth.emergentagent.com, then accounts.google.com. That flow was not completed.",
+  "rca of the issue": "N/A - no functional bugs found"
+}

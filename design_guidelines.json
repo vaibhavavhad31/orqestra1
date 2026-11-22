@@ -1,0 +1,168 @@
+{
+  "project_name": "AI Resource Manager",
+  "archetype": "The High-Clarity Linear-Stripe Hybrid (Light Mode Architecture)",
+  "context": "saas_dashboard",
+  "theme": {
+    "mode": "light",
+    "description": "Ultra-refined light theme inspired by Stripe's warm crisp white canvas (#FAFAFA / #F8F9FA) paired with Linear's precision engineering hierarchy, restrained borders, and Notion's tactile workspace calm. Absolutely no loud gradients, generic AI purple glows, or vibrating colors."
+  },
+  "typography": {
+    "font_family_headings": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_body": "Plus Jakarta Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_mono": "JetBrains Mono, SF Mono, Menlo, monospace",
+    "hierarchy": {
+      "h1": "text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 leading-tight",
+      "h2": "text-xl sm:text-2xl font-semibold tracking-tight text-slate-900",
+      "h3": "text-base sm:text-lg font-medium text-slate-800",
+      "h4": "text-sm font-semibold tracking-wide text-slate-700",
+      "body": "text-sm text-slate-600 leading-relaxed",
+      "body_muted": "text-xs text-slate-500",
+      "overline": "text-[11px] font-semibold tracking-[0.08em] uppercase text-slate-400 font-mono",
+      "metric_giant": "text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 font-mono"
+    },
+    "rules": [
+      "Headlines > 24px must use tracking-tight (-0.025em)",
+      "Financial, credit figures, and platform tokens must use font-mono tabular numbers (font-mono tracking-tight)",
+      "Strict prohibition against overusing heavy black weights: use font-medium (500) and font-semibold (600) for disciplined restraint"
+    ]
+  },
+  "colors": {
+    "canvas": {
+      "background": "#FBFBFC",
+      "surface": "#FFFFFF",
+      "surface_subtle": "#F6F7F9",
+      "sidebar": "#F8F9FA",
+      "border": "#E4E7EC",
+      "border_subtle": "#EEF0F3",
+      "border_focus": "#4F46E5"
+    },
+    "text": {
+      "primary": "#0F172A",
+      "secondary": "#334155",
+      "muted": "#64748B",
+      "faint": "#94A3B8",
+      "inverse": "#FFFFFF"
+    },
+    "brand_accent": {
+      "primary": "#4F46E5",
+      "primary_hover": "#4338CA",
+      "primary_light": "#EEF2FF",
+      "primary_subtle_border": "#C7D2FE",
+      "primary_text": "#3730A3"
+    },
+    "providers": {
+      "chatgpt": {
+        "name": "ChatGPT (OpenAI)",
+        "color": "#10A37F",
+        "bg": "#ECFDF5",
+        "border": "#A7F3D0"
+      },
+      "claude": {
+        "name": "Claude (Anthropic)",
+        "color": "#D97706",
+        "bg": "#FFFBEB",
+        "border": "#FDE68A"
+      },
+      "gemini": {
+        "name": "Gemini (Google)",
+        "color": "#2563EB",
+        "bg": "#EFF6FF",
+        "border": "#BFDBFE"
+      },
+      "copilot": {
+        "name": "Copilot (GitHub)",
+        "color": "#6366F1",
+        "bg": "#EEF2FF",
+        "border": "#C7D2FE"
+      },
+      "perplexity": {
+        "name": "Perplexity",
+        "color": "#0D9488",
+        "bg": "#F0FDFA",
+        "border": "#99F6E4"
+      }
+    },
+    "status": {
+      "success": { "badge_bg": "#ECFDF5", "text": "#047857", "dot": "#10B981" },
+      "warning": { "badge_bg": "#FFFBEB", "text": "#B45309", "dot": "#F59E0B" },
+      "danger": { "badge_bg": "#FEF2F2", "text": "#B91C1C", "dot": "#EF4444" },
+      "simulated": { "badge_bg": "#F1F5F9", "text": "#475569", "border": "#CBD5E1", "dot": "#64748B" }
+    }
+  },
+  "layout_and_grid": {
+    "shell_structure": {
+      "sidebar_width": "260px",
+      "topbar_height": "60px",
+      "mobile_breakpoint": "768px (md)",
+      "main_container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+    },
+    "bento_dashboard_grid": {
+      "overview_top_metrics": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4",
+      "overview_charts": "grid grid-cols-1 lg:grid-cols-12 gap-6",
+      "chart_main_span": "lg:col-span-8",
+      "chart_side_span": "lg:col-span-4"
+    },
+    "spacing": {
+      "card_padding": "p-5 sm:p-6",
+      "gap_compact": "gap-3 sm:gap-4",
+      "gap_section": "space-y-6 sm:space-y-8"
+    },
+    "borders_and_surfaces": {
+      "radius": "rounded-lg (8px)",
+      "radius_subtle": "rounded-md (6px)",
+      "card_style": "bg-white border border-[#E4E7EC] shadow-[0_1px_2px_rgba(16,24,40,0.04)]",
+      "interactive_hover": "transition-all duration-150 hover:border-slate-300 hover:shadow-sm"
+    }
+  },
+  "components_and_design_system": {
+    "app_shell": {
+      "sidebar": "Clean Notion/Linear style sidebar with module grouping, clean active indicator (bg-slate-100 text-indigo-600 font-medium with 3px left indicator or subtle rounded pill), org/individual mode pill, and user profile switcher at bottom.",
+      "topbar": "Sticky header with backdrop-blur-md bg-white/90 border-b border-[#E4E7EC], active route title + breadcrumb, 'View as role' badge/switcher, simulated data indicator, notifications bell, and quick user dropdown.",
+      "mobile_drawer": "Sheet drawer sliding from left on viewports < 768px with touch backdrop and easy close."
+    },
+    "demo_logins": {
+      "placement": "Prominent, frictionless one-click card on Login page with 4 distinct tiles (Org Admin, Team Manager, Staff Member / Employee, Individual Freelancer/Creator), each explaining their unique role permissions.",
+      "role_switcher": "Floating or topbar segmented control / dropdown for instant role toggling during demonstrations."
+    },
+    "simulated_badge": {
+      "spec": "Refined pill badge `px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5`, includes a subtle pulse or static slate dot and tooltip 'All telemetry in Phase 1 is synthetically modeled to simulate realistic team consumption'."
+    },
+    "coming_soon_module_state": {
+      "spec": "Polished empty-state container with module preview graphic, concise architectural roadmap summary for Phase 2/3, badge 'Phase 2 Planned', and a 'Notify me when ready' or 'Learn roadmap' interactive button."
+    },
+    "access_denied_state": {
+      "spec": "Clean Stripe-styled permission shield icon, explicit explanation of required tier/role (e.g., 'Requires Organisation Admin or Manager privileges'), and an instant 'Switch to Org Admin demo account' shortcut."
+    }
+  },
+  "modules_matrix": {
+    "modules": [
+      { "id": "overview", "label": "Overview", "icon": "LayoutDashboard", "roles": ["admin", "manager", "employee", "individual"], "status": "active" },
+      { "id": "usage", "label": "AI Usage", "icon": "Cpu", "roles": ["admin", "manager", "employee", "individual"], "status": "active" },
+      { "id": "allocation", "label": "Resource Allocation", "icon": "PieChart", "roles": ["admin", "manager"], "status": "coming_soon" },
+      { "id": "lending", "label": "Credit Lending", "icon": "ArrowLeftRight", "roles": ["admin", "individual"], "status": "coming_soon" },
+      { "id": "handover", "label": "Task Handover", "icon": "GitFork", "roles": ["admin", "manager", "employee"], "status": "coming_soon" },
+      { "id": "planner", "label": "Session Planner", "icon": "CalendarRange", "roles": ["admin", "manager", "employee", "individual"], "status": "coming_soon" },
+      { "id": "notifications", "label": "Notifications", "icon": "Bell", "roles": ["admin", "manager", "employee", "individual"], "status": "coming_soon" },
+      { "id": "reports", "label": "Reports", "icon": "FileBarChart", "roles": ["admin", "manager"], "status": "coming_soon" },
+      { "id": "team", "label": "Team", "icon": "Users", "roles": ["admin", "manager"], "status": "coming_soon" },
+      { "id": "integrations", "label": "Integrations", "icon": "Boxes", "roles": ["admin"], "status": "coming_soon" },
+      { "id": "settings", "label": "Settings", "icon": "Settings", "roles": ["admin", "manager", "employee", "individual"], "status": "coming_soon" }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Do NOT use dark gradients or pitch black cards. Keep background warm white (#FBFBFC) with pure white (#FFFFFF) cards and subtle 1px slate-200 borders.",
+    "Ensure every page and interactive button has explicit `data-testid` attributes (e.g. data-testid='demo-login-admin-button', data-testid='role-switcher-dropdown', data-testid='range-filter-30d', data-testid='simulated-data-badge').",
+    "On the login page, provide both standard JWT email/password login and 4 fast 1-click Demo buttons: 'Org Admin (Alex Vance)', 'Manager (Sarah Chen)', 'Employee (David Miller)', and 'Individual (Elena Rostova)'.",
+    "Support Google OAuth flow + first-time Mode Picker ('Individual' vs 'Organisation') modal/route.",
+    "Implement the 'View as role' switcher in the global Topbar with clear feedback toast and state update so evaluators can switch roles effortlessly without re-logging.",
+    "Use Recharts for AI Usage with smooth stacked areas, provider donuts, and high-clarity tooltips with provider colors.",
+    "Provide responsive drawer navigation for screens below 768px using Shadcn Sheet or mobile overlay."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Avoid the generic AI look with high-saturation neon blues or purples. Use muted Indigo #4F46E5 with soft slate neutrals.",
+    "Do not center-align the app container. Align content left with clean breathing room and 24-32px gutters.",
+    "Use Sonner for toast notifications when switching roles, signing in, or filtering datasets.",
+    "Maintain high APCA text contrast: slate-900 on white for headings, slate-600 for body, slate-500 for captions.",
+    "Every module must show either real live views (Overview & AI Usage) or the polished Phase 2 Roadmap state without breaking shell navigation."
+  ]
+}
